@@ -1,26 +1,31 @@
 package org.example;
 
-public class Doctor implements Staff{
-    private String qualification;
-    private Nurse nurse;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-    public Nurse getNurse() {
-        return nurse;
-    }
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
-    public void setNurse(Nurse nurse) {
-        this.nurse = nurse;
-    }
-
-    public String getQualification() {
-        return qualification;
-    }
-
-    public void setQualification(String qualification) {
-        this.qualification = qualification;
-    }
-
+@Component
+@Scope(scopeName = "singleton")
+public class Doctor implements Staff, BeanNameAware {
     public void assist(){
         System.out.println("Doctor is assisting");
+    }
+
+    @Override
+    public void setBeanName(String name){
+        System.out.println("Set Bean Name method called");
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        System.out.println("Post construct method is called");
+    }
+
+    @PreDestroy
+    public void preDestroy(){
+        System.out.println("Called after bean memory is freed");
     }
 }
